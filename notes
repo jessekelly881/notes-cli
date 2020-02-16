@@ -59,7 +59,7 @@ def show(ctx, name):
 @click.argument('name')
 @click.pass_context
 def edit(ctx, name):
-    """Show contents of note"""
+    """Edit contents of a note file"""
 
     # create local copies of ctx vaiables for easy access
     path = ctx.obj["path"]
@@ -78,7 +78,7 @@ def edit(ctx, name):
 @click.argument('commands', nargs=-1)
 @click.pass_context
 def git(ctx, commands):
-    """Show contents of note"""
+    """Run git command on notes folder"""
 
     # create local copies of ctx vaiables for easy access
     gitCommand = ctx.obj["gitCommand"]
@@ -90,7 +90,7 @@ def git(ctx, commands):
 @click.argument('name')
 @click.pass_context
 def rm(ctx, name):
-    """Show contents of note"""
+    """Removed a note or a section of notes"""
 
     # create local copies of ctx vaiables for easy access
     path = ctx.obj["path"]
@@ -110,7 +110,7 @@ def rm(ctx, name):
 @click.argument('fromName')
 @click.pass_context
 def mv(ctx, fromName, toName):
-    """Show contents of note"""
+    """Move a note from one place to another"""
 
     # create local copies of ctx vaiables for easy access
     path = ctx.obj["path"]
