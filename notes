@@ -9,13 +9,16 @@ from os.path import expanduser, isdir
 DEFAULT_PATH = expanduser("~")+"/.notes"
 
 # create command group needed for subcomands
-@click.group()
+@click.group(invoke_without_command=True)
 @click.option('--force', '-f', default=False)
 @click.option('--path', '-p', envvar='NOTES_PATH', default=DEFAULT_PATH, show_default=True)
 @click.pass_context
 def cli(ctx, path, force):
     ctx.obj["path"] = path
     ctx.obj["force"] = force
+
+    if ctx.invoked_subcommand is None:
+        system('tree ' + path)
 
 
 @cli.command('init')
@@ -33,6 +36,13 @@ def init(ctx):
     else:
         print("Creating notes archive at ", path)
         system("git init " + path)
+
+
+@cli.command('create')
+@click.pass_context
+def create(ctx):
+    pass
+
 
 
 if __name__ == '__main__':
