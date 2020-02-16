@@ -48,7 +48,11 @@ def show(ctx, name):
     # create local copies of ctx vaiables for easy access
     path = ctx.obj["path"]
 
-    system('cat ' + path + "/" + name)
+    if(not isdir(path)):
+        print("No notes directory found at " + path)
+
+    else:
+        system('cat ' + path + "/" + name)
 
 
 @cli.command('edit')
@@ -61,9 +65,13 @@ def edit(ctx, name):
     path = ctx.obj["path"]
     gitCommand = ctx.obj["gitCommand"]
 
-    system('$EDITOR ' + path + "/" + name)
-    system(gitCommand + "add .")
-    system(gitCommand + "commit -m 'edited " + name + "'")
+    if(not isdir(path)):
+        print("No notes directory found at " + path)
+
+    else:
+        system('$EDITOR ' + path + "/" + name)
+        system(gitCommand + "add .")
+        system(gitCommand + "commit -m 'edited " + name + "'")
 
 
 @cli.command('git')
@@ -88,9 +96,13 @@ def rm(ctx, name):
     path = ctx.obj["path"]
     gitCommand = ctx.obj["gitCommand"]
 
-    system('rm -r ' + path + "/" + name)
-    system(gitCommand + "add .")
-    system(gitCommand + "commit -m 'removed " + name + "'")
+    if(not isdir(path)):
+        print("No notes directory found at " + path)
+
+    else:
+        system('rm -r ' + path + "/" + name)
+        system(gitCommand + "add .")
+        system(gitCommand + "commit -m 'removed " + name + "'")
 
 
 @cli.command('mv')
@@ -104,9 +116,13 @@ def mv(ctx, fromName, toName):
     path = ctx.obj["path"]
     gitCommand = ctx.obj["gitCommand"]
 
-    system('mv -r ' + path + "/" + fromName + " " + path + "/" + toName)
-    system(gitCommand + "add .")
-    system(gitCommand + "commit -m 'moved " + fromName + "to" + toName + "'")
+    if(not isdir(path)):
+        print("No notes directory found at " + path)
+
+    else:
+        system('mv -r ' + path + "/" + fromName + " " + path + "/" + toName)
+        system(gitCommand + "add .")
+        system(gitCommand + "commit -m 'moved " + fromName + "to" + toName + "'")
 
 
 if __name__ == '__main__':
