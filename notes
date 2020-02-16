@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+import click
+
+# create command group needed for subcomands
+@click.group()
+def cli(): pass
+
+@cli.command('init')
+def init():
+    """Initialize notes directory"""
+    print("Creating notes archive")
+
+if __name__ == '__main__':
+    cli()
