@@ -2,8 +2,9 @@
 
 import click
 
-from os import system
-from os.path import expanduser, isdir
+from os import system, makedirs
+from os.path import expanduser, isdir, split
+from shutil import move
 
 # defaults
 DEFAULT_PATH = expanduser("~")+"/.notes"
@@ -19,7 +20,7 @@ def cli(ctx, path, force):
     ctx.obj["gitCommand"] = "git -C " + path + " "
 
     if ctx.invoked_subcommand is None:
-        system('tree ' + path)
+        system('tree --noreport ' + path)
 
 
 @cli.command('init')
@@ -120,7 +121,10 @@ def mv(ctx, fromname, toname):
         print("No notes directory found at " + path)
 
     else:
-        system('mv ' + path + "/" + fromname + " " + path + "/" + toname)
+        dir_name, _ = split(path + "/" + toname)
+        makedirs(dir_name, exist_ok=True)
+
+        move(path + "/" + fromname, path + "/" + toname)
         system(gitCommand + "add .")
         system(gitCommand + "commit -m 'moved " + fromname + "to" + toname + "'")
 
