@@ -10,7 +10,7 @@ DEFAULT_PATH = expanduser("~")+"/.notes"
 
 # create command group needed for subcomands
 @click.group(invoke_without_command=True)
-@click.option('--force', '-f', default=False)
+@click.option('--force', '-f', is_flag=True)
 @click.option('--path', '-p', envvar='NOTES_PATH', default=DEFAULT_PATH, show_default=True)
 @click.pass_context
 def cli(ctx, path, force):
