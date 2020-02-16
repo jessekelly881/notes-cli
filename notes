@@ -59,7 +59,7 @@ def show(ctx, name):
 @click.argument('name')
 @click.pass_context
 def edit(ctx, name):
-    """Edit contents of a note file"""
+    """Edit contents of a note"""
 
     # create local copies of ctx vaiables for easy access
     path = ctx.obj["path"]
