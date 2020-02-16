@@ -2,7 +2,6 @@
 
 import click
 from os.path import expanduser
-from collections import namedtuple
 
 # defaults
 DEFAULT_PATH = expanduser("~")+"/.notes"
