@@ -38,11 +38,27 @@ def init(ctx):
         system("git init " + path)
 
 
-@cli.command('create')
+@cli.command('show')
+@click.argument('name')
 @click.pass_context
-def create(ctx):
-    pass
+def show(ctx, name):
+    """Show contents of note"""
 
+    # create local copies of ctx vaiables for easy access
+    path = ctx.obj["path"]
+    system('cat ' + path + "/" + name)
+
+
+@cli.command('edit')
+@click.argument('name')
+@click.pass_context
+def edit(ctx, name):
+    """Show contents of note"""
+
+    # create local copies of ctx vaiables for easy access
+    path = ctx.obj["path"]
+
+    system('$EDITOR ' + path + "/" + name)
 
 
 if __name__ == '__main__':
