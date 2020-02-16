@@ -16,6 +16,7 @@ DEFAULT_PATH = expanduser("~")+"/.notes"
 def cli(ctx, path, force):
     ctx.obj["path"] = path
     ctx.obj["force"] = force
+    ctx.obj["gitCommand"] = "git -C " + path + " "
 
     if ctx.invoked_subcommand is None:
         system('tree ' + path)
@@ -57,9 +58,23 @@ def edit(ctx, name):
 
     # create local copies of ctx vaiables for easy access
     path = ctx.obj["path"]
+    gitCommand = ctx.obj["gitCommand"]
 
     system('$EDITOR ' + path + "/" + name)
+    system(gitCommand + "add .")
+    system(gitCommand + "commit -m 'edited " + name + "'")
 
+
+@cli.command('git')
+@click.argument('commands', nargs=-1)
+@click.pass_context
+def git(ctx, commands):
+    """Show contents of note"""
+
+    # create local copies of ctx vaiables for easy access
+    gitCommand = ctx.obj["gitCommand"]
+
+    system(gitCommand + " ".join(commands))
 
 if __name__ == '__main__':
     cli(obj={})
