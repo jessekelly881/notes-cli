@@ -57,9 +57,10 @@ def show(ctx, name):
 
 
 @cli.command('edit')
+@click.option('--header', '-h', envvar='NOTES_HEADER', default='', help="Header to include in new notes files")
 @click.argument('name')
 @click.pass_context
-def edit(ctx, name):
+def edit(ctx, name, header):
     """Edit contents of a note"""
 
     # create local copies of ctx vaiables for easy access
@@ -68,11 +69,15 @@ def edit(ctx, name):
 
     if(not isdir(path)):
         print("No notes directory found at " + path)
+        return
 
-    else:
-        system('$EDITOR ' + path + "/" + name)
-        system(gitCommand + "add .")
-        system(gitCommand + "commit -m 'edited " + name + "'")
+    if(header != ''):
+        system('touch ' + path + '/' + name)
+        system('echo ' + header + " > " + path + '/' + name)
+
+    system('$EDITOR ' + path + "/" + name)
+    system(gitCommand + "add .")
+    system(gitCommand + "commit -m 'edited " + name + "'")
 
 
 @cli.command('git')
