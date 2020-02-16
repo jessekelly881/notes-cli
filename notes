@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import click
+
+from os import system
 from os.path import expanduser, isdir
 
 # defaults
@@ -8,11 +10,12 @@ DEFAULT_PATH = expanduser("~")+"/.notes"
 
 # create command group needed for subcomands
 @click.group()
+@click.option('--force', '-f', default=False)
 @click.option('--path', '-p', envvar='NOTES_PATH', default=DEFAULT_PATH, show_default=True)
 @click.pass_context
-def cli(ctx, path):
+def cli(ctx, path, force):
     ctx.obj["path"] = path
-
+    ctx.obj["force"] = force
 
 
 @cli.command('init')
@@ -22,10 +25,14 @@ def init(ctx):
 
     # create local copies of ctx vaiables for easy access
     path = ctx.obj["path"]
+    force = ctx.obj["force"]
 
-    print("Creating notes archive at ", path)
-    if(isdir(path)):
-        print("Directory already exists. Stopping. Consider using -f/--force to force this action")
+    if(isdir(path) and not force):
+        print("Cannot create a notes directory at", path, "Path already exists")
+
+    else:
+        print("Creating notes archive at ", path)
+        system("git init " + path)
 
 
 if __name__ == '__main__':
