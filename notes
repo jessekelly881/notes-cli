@@ -47,6 +47,7 @@ def show(ctx, name):
 
     # create local copies of ctx vaiables for easy access
     path = ctx.obj["path"]
+
     system('cat ' + path + "/" + name)
 
 
@@ -75,6 +76,38 @@ def git(ctx, commands):
     gitCommand = ctx.obj["gitCommand"]
 
     system(gitCommand + " ".join(commands))
+
+
+@cli.command('rm')
+@click.argument('name')
+@click.pass_context
+def rm(ctx, name):
+    """Show contents of note"""
+
+    # create local copies of ctx vaiables for easy access
+    path = ctx.obj["path"]
+    gitCommand = ctx.obj["gitCommand"]
+
+    system('rm -r ' + path + "/" + name)
+    system(gitCommand + "add .")
+    system(gitCommand + "commit -m 'removed " + name + "'")
+
+
+@cli.command('mv')
+@click.argument('toName')
+@click.argument('fromName')
+@click.pass_context
+def mv(ctx, fromName, toName):
+    """Show contents of note"""
+
+    # create local copies of ctx vaiables for easy access
+    path = ctx.obj["path"]
+    gitCommand = ctx.obj["gitCommand"]
+
+    system('mv -r ' + path + "/" + fromName + " " + path + "/" + toName)
+    system(gitCommand + "add .")
+    system(gitCommand + "commit -m 'moved " + fromName + "to" + toName + "'")
+
 
 if __name__ == '__main__':
     cli(obj={})
