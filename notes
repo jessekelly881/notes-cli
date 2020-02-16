@@ -2,21 +2,26 @@
 
 import click
 from os.path import expanduser
+from collections import namedtuple
 
 # defaults
 DEFAULT_PATH = expanduser("~")+"/.notes"
 
+# global vars
+globalSettings = {}
 
 # create command group needed for subcomands
 @click.group()
-def cli(): pass
+@click.option('--path', '-p', envvar='NOTES_PATH', default=DEFAULT_PATH, show_default=True)
+def cli(path):
+    globalSettings["path"] = path
+
 
 
 @cli.command('init')
-@click.option('--path', '-p', envvar='NOTES_PATH', default=DEFAULT_PATH)
-def init(path):
+def init():
     """Initialize notes directory"""
-    print("Creating notes archive at ", path)
+    print("Creating notes archive at ", globalSettings["path"])
 
 
 if __name__ == '__main__':
