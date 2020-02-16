@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import click
-from os.path import expanduser
+from os.path import expanduser, isdir
 
 # defaults
 DEFAULT_PATH = expanduser("~")+"/.notes"
@@ -19,7 +19,13 @@ def cli(ctx, path):
 @click.pass_context
 def init(ctx):
     """Initialize notes directory"""
-    print("Creating notes archive at ", ctx.obj["path"])
+
+    # create local copies of ctx vaiables for easy access
+    path = ctx.obj["path"]
+
+    print("Creating notes archive at ", path)
+    if(isdir(path)):
+        print("Directory already exists. Stopping. Consider using -f/--force to force this action")
 
 
 if __name__ == '__main__':
