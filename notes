@@ -106,10 +106,10 @@ def rm(ctx, name):
 
 
 @cli.command('mv')
-@click.argument('toName')
-@click.argument('fromName')
+@click.argument('toname')
+@click.argument('fromname')
 @click.pass_context
-def mv(ctx, fromName, toName):
+def mv(ctx, fromname, toname):
     """Move a note from one place to another"""
 
     # create local copies of ctx vaiables for easy access
@@ -120,9 +120,9 @@ def mv(ctx, fromName, toName):
         print("No notes directory found at " + path)
 
     else:
-        system('mv -r ' + path + "/" + fromName + " " + path + "/" + toName)
+        system('mv ' + path + "/" + fromname + " " + path + "/" + toname)
         system(gitCommand + "add .")
-        system(gitCommand + "commit -m 'moved " + fromName + "to" + toName + "'")
+        system(gitCommand + "commit -m 'moved " + fromname + "to" + toname + "'")
 
 
 if __name__ == '__main__':
