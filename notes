@@ -1,15 +1,23 @@
 #!/usr/bin/env python
 
 import click
+from os.path import expanduser
+
+# defaults
+DEFAULT_PATH = expanduser("~")+"/.notes"
+
 
 # create command group needed for subcomands
 @click.group()
 def cli(): pass
 
+
 @cli.command('init')
-def init():
+@click.option('--path', '-p', envvar='NOTES_PATH', default=DEFAULT_PATH)
+def init(path):
     """Initialize notes directory"""
-    print("Creating notes archive")
+    print("Creating notes archive at ", path)
+
 
 if __name__ == '__main__':
     cli()
